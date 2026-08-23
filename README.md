@@ -1,51 +1,78 @@
-# NanoKey
+# Kings Roomba
 
-Nanokey is a 4 key macropad with an OLED Display. It also uses QMK firmware
+    Kings Roomba isnt a Roomba (shocking).
+    Kings Roomba is just a simple remote controlled robot that looks like a Roomba cuz i suck at 3d modeling and has a ultrasonic sensor.
 
-PS: All images of the PCB, CAD and Schematics are on the assets folder if u wanna see.
 
 ## Features:
-- 128x32 OLED Display
-- 4 Keys
+    - 4 Wheels - Robot
+    - Ultrasonic Sensor - Robot
+    - KINGS BRAND FROM HOLLOW KNIGHT - Robot
+    - 3000mah Battery (Around 3-4 hours of continuous use) - Robot
+    - TFT Display - Controller
+    - Joysticks for full control of both wheel groups - Controller
+    - 400mah Battery (Still like 3 hours of use) - Controller
+    - LIL TENNA (Delarune Reference??????)
+    - HORNET AND HER NEEDLE - Controller
 
-## CAD Model:
-Everything fits together using dovetail joints so there is no need for screws or glue!
-It has 3 separate printed pieces. The main part consisting of the bottom, back and side walls. The secondary part consisting of the front wall. The Last part consistiong of top part of the case.
 
-Made in Fusion360. Nifty
+## Robot Model:
+    Everything fits together using Screws and Brass inserts. It uses M2, M2.5 and M3 Screws and Inserts
+    It has a bazzilion pieces including:
+    - Main Body
+    - Middle Plate
+    - Top Plate
+    - Whells x 4
+    - Brackets x 4
 
-![NanoKey 3D Render](assets/CAD.png)
+Made in Fusion360. Cuz i am broke and its freee
 
-## PCB
-It was made in KiCad. Only needing to add Kicad Care package Symbols and Footprints.
-All 3D models were found on GrabCad
+![Robot 3D Render](assets/KingsRoomba.png)
 
-I used MX_V2 for the keyswitch footprints.
 
-**Schematic:**
-![NanoKey Schematic](assets/Schematic.png)
+## Controller Model
+    Its less stuff to digest then the actual robot, only needing 3 parts and a couple of Brass inserts and screws.
+    The only parts you need are:
+    - Bottom Piece
+    - Top Piece
+    - LIL TENNA (optional)
 
-**PCB Layout:**
-![NanoKey PCB Layout](assets/PCB.png)
+    LIL TENNA might be optional but dont you dare not print it!!
+
+![Controller 3D Render](assets/Controller.png)
+
+
+## PCB AND SCHEMATIC
+    IT DONT GOT ONE AND IT DONT NEED ONE CUZ I KNOW WHAT I GOT!!
+    in other words you only need a few dupon wires to build it, all parts are either screwed together or lodged in their one nifty room so no need to worry about them getting loose.
+
+
 
 ## Firmware Overview
-This hackpad uses [QMK](https://qmk.fm/) firmware for everything. 
+    Its Just ArduinoIDE ig.
 
-- The 4 keys currently act as macros
-- The OLED is supposed to be a Ram stick, cuz im kinda broke on ram :(
+    - The Screen is to display wether the motor are spinning to the front or back
+    - Both ESP talk together using ESP NOW
 
 
 ## BOM:
-Here should be everything you need to make this hackpad
+    Here should be everything you need to make this one of a kinda Kings Roomba to clean up your White Palace Runs
 
-- 4x Cherry MX Switches
-- 4x DSA Keycaps
-- 4x 1N4148 DO-35 Diodes.
-- 1x 0.91" 128x32 OLED Display
-- 1x XIAO RP2040
-- 1x Case (3 printed parts)
-
+    - 2x Xiao ESP32 S3
+    - 1x 1.3 inch TFT Display
+    - 1x Keystudio Motor Driver
+    - 2x Joystick Modules
+    - 4x DC Motors
+    - 1x Ultrasonic Senor (HC-SR04)
+    - 1x 3000mah 18650 Cell
+    - 1x Cell Holder
+    - 1x 400mah Lipo Battery
+    - 2x Switches
+    - Brass Inserts
+    - 0x PCB cuz it dont need one
+    - 14x Printed Pieces
 
 ## Extra stuff
-Honestly this was my first ever project, i never touched CAD besides TinkerCAD in school and never made a PCB in my life.
-With that expect a bunch of errors and stuff but it was fun to build it and learn as I built!
+ Firstly Thanks for Reaching the end of the READ ME, that means a lot to me.
+ This was my 3rd project I did and I am really happy how it turned out.
+ One last thanks is to everyone at Stardance and Hackclub who gave me the chance to do this.
