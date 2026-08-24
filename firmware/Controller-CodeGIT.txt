@@ -1,0 +1,63 @@
+#include <esp_now.h>
+#include <WiFi.h>
+#include <TFT_eSPI.h> 
+
+TFT_eSPI tft = TFT_eSPI(); 
+
+// mudar para o MAC correto NUNO n é pa deixar assim crlh
+uint8_t robotAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+
+// Mandar merdas
+typedef struct struct_message {
+  int leftSpeed;
+  int rightSpeed;
+} struct_message;
+
+struct_message myData;
+esp_now_peer_info_t peerInfo;
+
+const int joyLeftY = D0;  // mudar po pin que escolhi
+const int joyRightY = D1; // mudar po pin que escolhi
+
+void setup() {
+  Serial.begin(115200);
+  tft.init();
+  tft.setRotation(1);
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextSize(2);
+
+  WiFi.mode(WIFI_STA);
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("Error initializing ESP-NOW");
+    return;
+  }
+
+  memcpy(peerInfo.peer_addr, robotAddress, 6);
+  peerInfo.channel = 0;  
+  peerInfo.encrypt = false;
+  esp_now_add_peer(&peerInfo);
+}
+
+void loop() {
+  int rawLeft = analogRead(joyLeftY);
+  int rawRight = analogRead(joyRightY);
+
+  // Map to motor speeds (-255 to 255)
+  myData.leftSpeed = map(rawLeft, 0, 4095, -255, 255);
+  myData.rightSpeed = map(rawRight, 0, 4095, -255, 255);
+
+  // Add a small deadband so it doesn't creep when letting go
+  if(abs(myData.leftSpeed) < 20) myData.leftSpeed = 0;
+  if(abs(myData.rightSpeed) < 20) myData.rightSpeed = 0;
+
+  esp_now_send(robotAddress, (uint8_t *) &myData, sizeof(myData));
+
+  // Cenas da Tela
+  tft.setCursor(10, 30);
+  if (myData.leftSpeed > 20 && myData.rightSpeed > 20) tft.print("Moving: FORWARD ");
+  else if (myData.leftSpeed < -20 && myData.rightSpeed < -20) tft.print("Moving: BACKWARD");
+  else tft.print("Moving: IDLE    ");
+
+  delay(50); // Apredin que dar um tiny delay ajuda
+}

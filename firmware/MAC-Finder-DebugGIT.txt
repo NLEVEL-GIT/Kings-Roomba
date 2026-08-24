@@ -1,0 +1,15 @@
+#include <WiFi.h>
+
+void setup() {
+  Serial.begin(115200);
+  while (!Serial);
+
+  WiFi.mode(WIFI_STA);
+  Serial.println();
+  Serial.print("Robot ESP32 MAC Address: ");
+  Serial.println(WiFi.macAddress());
+}
+
+void loop() {
+}
+//TEST CODE SO I KNOW WTF TO PUT IN MAC ADDRESS   ignore if u alredy have it

@@ -1,0 +1,60 @@
+#include <esp_now.h>
+#include <WiFi.h>
+
+// MUDAR POS PINS CORRETOS
+const int AIN1 = D0, AIN2 = D1, PWMA = D2; // Esquerda
+const int BIN1 = D3, BIN2 = D4, PWMB = D5; // Direita se n fico confuso
+
+// Olhos
+const int trigPin = D8, echoPin = D9;
+
+typedef struct struct_message {
+  int leftSpeed;
+  int rightSpeed;
+} struct_message;
+struct_message myData;
+
+void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
+  memcpy(&myData, incomingData, sizeof(myData));
+}
+
+void setup() {
+  pinMode(AIN1, OUTPUT); pinMode(AIN2, OUTPUT); pinMode(PWMA, OUTPUT);
+  pinMode(BIN1, OUTPUT); pinMode(BIN2, OUTPUT); pinMode(PWMB, OUTPUT);
+  pinMode(trigPin, OUTPUT); pinMode(echoPin, INPUT);
+
+  WiFi.mode(WIFI_STA);
+  esp_now_init();
+  esp_now_register_recv_cb(OnDataRecv);
+}
+
+void driveMotor(int speed, int in1, int in2, int pwmPin) {
+  if (speed > 0) { // Forward
+    digitalWrite(in1, HIGH); digitalWrite(in2, LOW);
+  } else if (speed < 0) { // Backward
+    digitalWrite(in1, LOW); digitalWrite(in2, HIGH);
+  } else { // Stop
+    digitalWrite(in1, LOW); digitalWrite(in2, LOW);
+  }
+  analogWrite(pwmPin, abs(speed));
+}
+
+void loop() {
+  // Distancias
+  digitalWrite(trigPin, LOW); delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH); delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  long duration = pulseIn(echoPin, HIGH);
+  int distance = duration * 0.034 / 2;
+
+  // Parar pa eu n fuder peças
+  if (distance > 0 && distance < 10 && (myData.leftSpeed > 0 || myData.rightSpeed > 0)) {
+    driveMotor(0, AIN1, AIN2, PWMA);
+    driveMotor(0, BIN1, BIN2, PWMB);
+  } else {
+    // Normal
+    driveMotor(myData.leftSpeed, AIN1, AIN2, PWMA);
+    driveMotor(myData.rightSpeed, BIN1, BIN2, PWMB);
+  }
+  delay(10); // delay bom
+}
